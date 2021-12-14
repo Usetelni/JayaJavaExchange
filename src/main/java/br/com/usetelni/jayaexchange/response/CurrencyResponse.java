@@ -35,6 +35,10 @@ public class CurrencyResponse {
     private LocalDateTime createdAt;
     @JsonProperty("updatedAt")
     private LocalDateTime updatedAt;
+
+    public CurrencyResponse(){
+        
+    }
     
     public CurrencyResponse(String endToEnd, Long userId, @NotNull CurrencyType originCurrency,
             @NotNull CurrencyType destinationCurrency, @NotNull Double originAmount, @NotNull Double destinationAmount,
