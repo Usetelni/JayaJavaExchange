@@ -24,15 +24,15 @@ public class CurrencyTransactionMapper {
         return model;
     }
 
-    public CurrencyResponse response(CurrencyTransaction model, String endToEnd, Double destinationAmount){
+    public CurrencyResponse response(CurrencyTransaction model){
         CurrencyResponse response = new CurrencyResponse();
         
-        response.setEndToEnd(endToEnd);
+        response.setEndToEnd("endToEnd");
         response.setUserId(model.getId());
         response.setOriginCurrency(model.getOriginCurrency());
         response.setDestinationCurrency(model.getDestinationCurrency());
         response.setOriginAmount(model.getOriginAmount());
-        response.setDestinationAmount(destinationAmount);
+        response.setDestinationAmount(0.0);
         response.setTaxConvertion(model.getTaxConvertion());
         response.setCreatedAt(model.getDateModel().getCreatedAt());
         response.setUpdatedAt(model.getDateModel().getUpdatedAt());
