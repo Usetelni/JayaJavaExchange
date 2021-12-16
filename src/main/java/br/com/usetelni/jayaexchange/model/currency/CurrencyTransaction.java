@@ -29,7 +29,7 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     @Column(name = "origin_amount", nullable = false ) 
     private Double originAmount;
     @Column(name = "conversion_tax" )
-    private Long taxConvertion;
+    private Double taxConvertion;
     @Column(name = "date_rate")
     private LocalDateTime dateRate;
     public CurrencyType getOriginCurrency() {
@@ -50,10 +50,10 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     public void setOriginAmount(Double originAmount) {
         this.originAmount = originAmount;
     }
-    public Long getTaxConvertion() {
+    public Double getTaxConvertion() {
         return taxConvertion;
     }
-    public void setTaxConvertion(Long taxConvertion) {
+    public void setTaxConvertion(Double taxConvertion) {
         this.taxConvertion = taxConvertion;
     }
     public LocalDateTime getDateRate() {

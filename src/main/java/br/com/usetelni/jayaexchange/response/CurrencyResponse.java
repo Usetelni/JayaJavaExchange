@@ -30,80 +30,102 @@ public class CurrencyResponse {
     private Double destinationAmount;
     @JsonProperty("taxConvertion")
     @NotNull
-    private Long taxConvertion;
+    private Double taxConvertion;
     @JsonProperty("date")
     private LocalDateTime dateRate;
     @JsonProperty("createdAt")
     private LocalDateTime createdAt;
     @JsonProperty("updatedAt")
     private LocalDateTime updatedAt;
-    
+
+
     public String getEndToEnd() {
         return endToEnd;
     }
+
     public void setEndToEnd(String endToEnd) {
         this.endToEnd = endToEnd;
     }
+
     public Long getUserId() {
         return userId;
     }
+
     public void setUserId(Long userId) {
         this.userId = userId;
     }
+
     public CurrencyType getOriginCurrency() {
         return originCurrency;
     }
+
     public void setOriginCurrency(CurrencyType originCurrency) {
         this.originCurrency = originCurrency;
     }
+
     public CurrencyType getDestinationCurrency() {
         return destinationCurrency;
     }
+
     public void setDestinationCurrency(CurrencyType destinationCurrency) {
         this.destinationCurrency = destinationCurrency;
     }
+
     public Double getOriginAmount() {
         return originAmount;
     }
+
     public void setOriginAmount(Double originAmount) {
         this.originAmount = originAmount;
     }
+
     public Double getDestinationAmount() {
         return destinationAmount;
     }
+
     public void setDestinationAmount(Double destinationAmount) {
         this.destinationAmount = destinationAmount;
     }
-    public Long getTaxConvertion() {
+
+    public Double getTaxConvertion() {
         return taxConvertion;
     }
-    public void setTaxConvertion(Long taxConvertion) {
+
+    public void setTaxConvertion(Double taxConvertion) {
         this.taxConvertion = taxConvertion;
     }
+
+    
+
     public LocalDateTime getDateRate() {
         return dateRate;
     }
+
     public void setDateRate(LocalDateTime dateRate) {
         this.dateRate = dateRate;
     }
+
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
+
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
     public LocalDateTime getUpdatedAt() {
         return updatedAt;
     }
+
     public void setUpdatedAt(LocalDateTime updatedAt) {
         this.updatedAt = updatedAt;
     }
+
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
-        result = prime * result + ((dateRate == null) ? 0 : dateRate.hashCode());
         result = prime * result + ((destinationAmount == null) ? 0 : destinationAmount.hashCode());
         result = prime * result + ((destinationCurrency == null) ? 0 : destinationCurrency.hashCode());
         result = prime * result + ((endToEnd == null) ? 0 : endToEnd.hashCode());
@@ -114,6 +136,7 @@ public class CurrencyResponse {
         result = prime * result + ((userId == null) ? 0 : userId.hashCode());
         return result;
     }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj)
@@ -127,11 +150,6 @@ public class CurrencyResponse {
             if (other.createdAt != null)
                 return false;
         } else if (!createdAt.equals(other.createdAt))
-            return false;
-        if (dateRate == null) {
-            if (other.dateRate != null)
-                return false;
-        } else if (!dateRate.equals(other.dateRate))
             return false;
         if (destinationAmount == null) {
             if (other.destinationAmount != null)
@@ -169,16 +187,14 @@ public class CurrencyResponse {
             return false;
         return true;
     }
-    
+
     @Override
     public String toString() {
-        return "CurrencyResponse [createdAt=" + createdAt + ", dateRate=" + dateRate + ", destinationAmount="
-                + destinationAmount + ", destinationCurrency=" + destinationCurrency + ", endToEnd=" + endToEnd
-                + ", originAmount=" + originAmount + ", originCurrency=" + originCurrency + ", taxConvertion="
-                + taxConvertion + ", updatedAt=" + updatedAt + ", userId=" + userId + "]";
+        return "CurrencyResponse [createdAt=" + createdAt + ", destinationAmount=" + destinationAmount
+                + ", destinationCurrency=" + destinationCurrency + ", endToEnd=" + endToEnd + ", originAmount="
+                + originAmount + ", originCurrency=" + originCurrency + ", taxConvertion=" + taxConvertion
+                + ", updatedAt=" + updatedAt + ", userId=" + userId + "]";
     }
-
-    
 
 
     
