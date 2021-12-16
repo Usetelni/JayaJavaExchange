@@ -19,13 +19,13 @@ public class DateModel implements Serializable {
     public static final String UPDATED_AT = "updatedAt";
     public static final String DELETED_AT = "deletedAt";
 
-    @Column(nullable = false, name = "criado_em")
+    @Column(nullable = false, name = "createdAt")
     private LocalDateTime createdAt;
 
-    @Column(nullable = false, name = "atualizado_em")
+    @Column(nullable = false, name = "updatedAt")
     private LocalDateTime updatedAt;
 
-    @Column(nullable = true, name = "deletado_em")
+    @Column(nullable = true, name = "deletedAt")
     private LocalDateTime deletedAt;
 
     

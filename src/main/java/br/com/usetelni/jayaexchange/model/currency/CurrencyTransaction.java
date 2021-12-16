@@ -1,5 +1,7 @@
 package br.com.usetelni.jayaexchange.model.currency;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -28,7 +30,8 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     private Double originAmount;
     @Column(name = "conversion_tax" )
     private Long taxConvertion;
-    
+    @Column(name = "date_rate")
+    private LocalDateTime dateRate;
     public CurrencyType getOriginCurrency() {
         return originCurrency;
     }
@@ -53,10 +56,17 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     public void setTaxConvertion(Long taxConvertion) {
         this.taxConvertion = taxConvertion;
     }
+    public LocalDateTime getDateRate() {
+        return dateRate;
+    }
+    public void setDateRate(LocalDateTime dateRate) {
+        this.dateRate = dateRate;
+    }
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
+        result = prime * result + ((dateRate == null) ? 0 : dateRate.hashCode());
         result = prime * result + ((destinationCurrency == null) ? 0 : destinationCurrency.hashCode());
         result = prime * result + ((originAmount == null) ? 0 : originAmount.hashCode());
         result = prime * result + ((originCurrency == null) ? 0 : originCurrency.hashCode());
@@ -72,6 +82,11 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
         if (getClass() != obj.getClass())
             return false;
         CurrencyTransaction other = (CurrencyTransaction) obj;
+        if (dateRate == null) {
+            if (other.dateRate != null)
+                return false;
+        } else if (!dateRate.equals(other.dateRate))
+            return false;
         if (destinationCurrency != other.destinationCurrency)
             return false;
         if (originAmount == null) {
@@ -88,14 +103,14 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
             return false;
         return true;
     }
-    
     @Override
     public String toString() {
-        return "CurrencyTransaction [destinationCurrency=" + destinationCurrency + ", originAmount=" + originAmount
-                + ", originCurrency=" + originCurrency + ", taxConvertion=" + taxConvertion + "]";
+        return "CurrencyTransaction [dateRate=" + dateRate + ", destinationCurrency=" + destinationCurrency
+                + ", originAmount=" + originAmount + ", originCurrency=" + originCurrency + ", taxConvertion="
+                + taxConvertion + "]";
     }
-
     
+       
     
 
 }

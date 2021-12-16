@@ -1,6 +1,7 @@
 package br.com.usetelni.jayaexchange.util;
 
 import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.TimeZone;
 
 public class TimeZones {
@@ -22,5 +23,9 @@ public class TimeZones {
 
     public static ZoneId getUtc() {
         return ZoneId.of(UTC);
+    }
+
+    public static ZoneOffset getZoneOffSetUtc(){
+        return ZoneOffset.UTC;
     }
 }

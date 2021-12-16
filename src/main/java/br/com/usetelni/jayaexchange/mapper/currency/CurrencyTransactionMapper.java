@@ -1,29 +1,33 @@
 package br.com.usetelni.jayaexchange.mapper.currency;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.usetelni.jayaexchange.mapper.dto.CurrencyTransactionDTO;
 import br.com.usetelni.jayaexchange.model.currency.CurrencyTransaction;
-import br.com.usetelni.jayaexchange.request.CurrencyRequest;
 import br.com.usetelni.jayaexchange.response.CurrencyResponse;
+import br.com.usetelni.jayaexchange.util.TimeZones;
 
+//TODO create DTO to receive data
 @Service
 public class CurrencyTransactionMapper {
     
 
-    public CurrencyTransaction create(CurrencyRequest request){
+    public CurrencyTransaction create(CurrencyTransactionDTO dto){
         CurrencyTransaction model = new CurrencyTransaction();
 
-        model.setOriginCurrency(request.getOriginCurrency());
-        model.setDestinationCurrency(request.getDestinationCurrency());
-        model.setOriginAmount(request.getOriginAmount());
-        model.setTaxConvertion(request.getTaxConvertion());
-        
+        model.setOriginCurrency(dto.getCurrencyRequest().getOriginCurrency());
+        model.setDestinationCurrency(dto.getCurrencyRequest().getDestinationCurrency());
+        model.setOriginAmount(dto.getCurrencyRequest().getOriginAmount());
+        model.setTaxConvertion(dto.getCurrencyRequest().getTaxConvertion());
+        model.setDateRate(LocalDateTime.ofEpochSecond(dto.getExchageConvertResponse().getTimestamp(), 0, TimeZones.getZoneOffSetUtc()));
         return model;
     }
 
+    
     public CurrencyResponse response(CurrencyTransaction model){
         CurrencyResponse response = new CurrencyResponse();
         

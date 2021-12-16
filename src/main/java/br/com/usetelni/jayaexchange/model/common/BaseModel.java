@@ -14,7 +14,7 @@ public class BaseModel<T extends BaseModel<T>> implements Serializable {
 
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false, name = "id")
     private Long id;
 
@@ -22,7 +22,7 @@ public class BaseModel<T extends BaseModel<T>> implements Serializable {
     private DateModel dateModel;
 
     @Version
-    @Column(nullable = false, name = "versao")
+    @Column(nullable = false, name = "version")
     private Integer version;
 
     public Long getId() {
