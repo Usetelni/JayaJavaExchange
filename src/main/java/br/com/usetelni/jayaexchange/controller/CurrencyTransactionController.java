@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,7 +21,7 @@ import br.com.usetelni.jayaexchange.response.common.BaseReturn;
 import br.com.usetelni.jayaexchange.service.currency.CurrencyTransactionService;
 
 @RestController
-@RequestMapping("/currency")
+@RequestMapping("/api/v1/currency")
 public class CurrencyTransactionController {
     
     
@@ -48,7 +49,7 @@ public class CurrencyTransactionController {
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public BaseReturn<CurrencyResponse> create(CurrencyRequest request){
+    public BaseReturn<CurrencyResponse> create(@RequestBody CurrencyRequest request){
         return this.service.create(request);
     }
 
