@@ -12,7 +12,8 @@ import br.com.usetelni.jayaexchange.model.enums.CurrencyType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyRequest {
     
-    private final String endToEnd;
+    private  String endToEnd;
+
     @JsonProperty("originCurrency")
     @NotNull
     private CurrencyType originCurrency;
@@ -24,19 +25,11 @@ public class CurrencyRequest {
     private Double originAmount;
     @JsonProperty("taxConvertion")
     @NotNull
-    private Long taxConvertion;
+    private CurrencyType taxConvertion;
 
     
-    public CurrencyRequest( CurrencyType originCurrency, CurrencyType destinationCurrency,
-            Double originAmount, Long taxConvertion) {
-        this.endToEnd = UUID.randomUUID().toString();
-        this.originCurrency = originCurrency;
-        this.destinationCurrency = destinationCurrency;
-        this.originAmount = originAmount;
-        this.taxConvertion = taxConvertion;
-    }
     public String getEndToEnd() {
-        return endToEnd;
+        return endToEnd = UUID.randomUUID().toString();
     }
     public CurrencyType getOriginCurrency() {
         return originCurrency;
@@ -56,10 +49,10 @@ public class CurrencyRequest {
     public void setOriginAmount(Double originAmount) {
         this.originAmount = originAmount;
     }
-    public Long getTaxConvertion() {
+    public CurrencyType getTaxConvertion() {
         return taxConvertion;
     }
-    public void setTaxConvertion(Long taxConvertion) {
+    public void setTaxConvertion(CurrencyType taxConvertion) {
         this.taxConvertion = taxConvertion;
     }
     

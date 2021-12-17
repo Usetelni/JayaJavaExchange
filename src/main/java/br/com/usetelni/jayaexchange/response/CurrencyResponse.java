@@ -12,10 +12,10 @@ import br.com.usetelni.jayaexchange.model.enums.CurrencyType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyResponse {
     
-    @JsonProperty("endToEnd")
-    private String endToEnd;
     @JsonProperty("id")
     private Long userId;
+    @JsonProperty("endToEnd")
+    private String endToEnd;
     @JsonProperty("originCurrency")
     @NotNull
     private CurrencyType originCurrency;
@@ -30,44 +30,30 @@ public class CurrencyResponse {
     private Double destinationAmount;
     @JsonProperty("taxConvertion")
     @NotNull
-    private Long taxConvertion;
+    private Double taxConvertion;
+    @JsonProperty("date")
+    private LocalDateTime dateRate;
     @JsonProperty("createdAt")
     private LocalDateTime createdAt;
     @JsonProperty("updatedAt")
     private LocalDateTime updatedAt;
 
-    public CurrencyResponse(){
-        
+
+    
+    public Long getUserId() {
+        return userId;
     }
     
-    public CurrencyResponse(String endToEnd, Long userId, @NotNull CurrencyType originCurrency,
-            @NotNull CurrencyType destinationCurrency, @NotNull Double originAmount, @NotNull Double destinationAmount,
-            @NotNull Long taxConvertion, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.endToEnd = endToEnd;
+    public void setUserId(Long userId) {
         this.userId = userId;
-        this.originCurrency = originCurrency;
-        this.destinationCurrency = destinationCurrency;
-        this.originAmount = originAmount;
-        this.destinationAmount = destinationAmount;
-        this.taxConvertion = taxConvertion;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
-
+    
     public String getEndToEnd() {
         return endToEnd;
     }
 
     public void setEndToEnd(String endToEnd) {
         this.endToEnd = endToEnd;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public CurrencyType getOriginCurrency() {
@@ -102,12 +88,22 @@ public class CurrencyResponse {
         this.destinationAmount = destinationAmount;
     }
 
-    public Long getTaxConvertion() {
+    public Double getTaxConvertion() {
         return taxConvertion;
     }
 
-    public void setTaxConvertion(Long taxConvertion) {
+    public void setTaxConvertion(Double taxConvertion) {
         this.taxConvertion = taxConvertion;
+    }
+
+    
+
+    public LocalDateTime getDateRate() {
+        return dateRate;
+    }
+
+    public void setDateRate(LocalDateTime dateRate) {
+        this.dateRate = dateRate;
     }
 
     public LocalDateTime getCreatedAt() {

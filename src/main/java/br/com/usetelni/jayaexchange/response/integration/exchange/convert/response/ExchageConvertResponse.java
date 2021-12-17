@@ -1,6 +1,5 @@
 package br.com.usetelni.jayaexchange.response.integration.exchange.convert.response;
 
-import java.util.List;
 import java.util.Map;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
