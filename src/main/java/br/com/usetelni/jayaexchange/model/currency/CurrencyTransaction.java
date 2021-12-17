@@ -17,7 +17,7 @@ import br.com.usetelni.jayaexchange.model.enums.CurrencyType;
 @Entity
 @Table(name = "currency_transaction")
 @SQLDelete(sql = "UPDATE currency_transaction SET deletado_em = CURRENT_TIMESTAMP WHERE id=? and versao=?")
-@Where(clause = "deletado_em is null")
+@Where(clause = "deleted_at is null")
 public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     
     @Column(name = "origin_currency", nullable = false)

@@ -1,6 +1,8 @@
 package br.com.usetelni.jayaexchange.service.impl.currency;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
@@ -8,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.usetelni.jayaexchange.api.ExchangeApi;
 import br.com.usetelni.jayaexchange.mapper.currency.CurrencyTransactionMapper;
+import br.com.usetelni.jayaexchange.mapper.dto.CurrencyResponseDTO;
 import br.com.usetelni.jayaexchange.mapper.dto.CurrencyTransactionDTO;
 import br.com.usetelni.jayaexchange.model.currency.CurrencyTransaction;
 import br.com.usetelni.jayaexchange.repository.CurrencyRepository;
@@ -45,38 +48,66 @@ public class CurrencyTransactionServiceImpl implements CurrencyTransactionServic
         CurrencyTransactionDTO dto = new CurrencyTransactionDTO(responseExchange, request);
         CurrencyTransaction model = mapper.create(dto);
         model = repository.save(model);
-        CurrencyResponse response = mapper.response(model);
+        CurrencyResponseDTO CurrencyResponseDTO = new CurrencyResponseDTO(model, convertToDestinationAmount(responseExchange, model), request.getEndToEnd()); 
+        CurrencyResponse response = mapper.response(CurrencyResponseDTO);
        
         return new BaseReturn<>(response);
     }
 
+    
     @Override
     public BaseReturn<CurrencyResponse> update(CurrencyRequest request) {
         // TODO Auto-generated method stub
         return null;
     }
-
+    
     @Override
     public BaseReturn<List<CurrencyResponse>> list() {
-        // TODO Auto-generated method stub
-        return null;
-    }
+        List<CurrencyTransaction> currencies = this.repository.findAll();
+        List<CurrencyResponseDTO> dtos = new ArrayList<>();
+        if(currencies.isEmpty()){
+            throw new RuntimeException();
+        }
 
+        currencies.stream().forEach(c -> {
+            Double destinationAmount = c.getOriginAmount() * c.getTaxConvertion();
+             CurrencyResponseDTO dto = new CurrencyResponseDTO(c,destinationAmount,"");
+             dtos.add(dto); 
+        });
+
+        List<CurrencyResponse> currencyResponses = this.mapper.response(dtos);
+        
+        return new BaseReturn<>(currencyResponses);
+        
+    }
+    
     @Override
     public BaseReturn<List<CurrencyResponse>> listById(String id) {
         // TODO Auto-generated method stub
         return null;
     }
-
+    
     @Override
     public BaseReturn<CurrencyResponse> getById(String id) {
-        // TODO Auto-generated method stub
-        return null;
+        CurrencyTransaction model  =  this.repository.findById(Long.parseLong(id)).orElseThrow();
+        Double destinationAmount = model.getOriginAmount() * model.getTaxConvertion(); 
+        CurrencyResponseDTO dto = new CurrencyResponseDTO(model, destinationAmount, "");
+        CurrencyResponse response = this.mapper.response(dto);
+        return new BaseReturn<>(response);
     }
-
+    
     @Override
     public void delete(String id) {
         // TODO Auto-generated method stub
+        
+    }
+
+    private Double convertToDestinationAmount(ExchageConvertResponse responseExchange, CurrencyTransaction model) {
+        if(Objects.isNull(responseExchange) || responseExchange.getRates().isEmpty()){
+            throw new RuntimeException();
+        }
+    
+        return model.getOriginAmount() * (Double.parseDouble(responseExchange.getRates().get(model.getDestinationCurrency().name())));
         
     }
     

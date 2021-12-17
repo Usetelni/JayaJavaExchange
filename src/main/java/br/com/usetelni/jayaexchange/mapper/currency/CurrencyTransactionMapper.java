@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import br.com.usetelni.jayaexchange.mapper.dto.CurrencyResponseDTO;
 import br.com.usetelni.jayaexchange.mapper.dto.CurrencyTransactionDTO;
 import br.com.usetelni.jayaexchange.model.currency.CurrencyTransaction;
 import br.com.usetelni.jayaexchange.response.CurrencyResponse;
@@ -28,25 +29,25 @@ public class CurrencyTransactionMapper {
         return model;
     }
 
-    public CurrencyResponse response(CurrencyTransaction model){
+    public CurrencyResponse response(CurrencyResponseDTO dto){
         CurrencyResponse response = new CurrencyResponse();
         
-        response.setEndToEnd("endToEnd");
-        response.setUserId(model.getId());
-        response.setOriginCurrency(model.getOriginCurrency());
-        response.setDestinationCurrency(model.getDestinationCurrency());
-        response.setOriginAmount(model.getOriginAmount());
-        response.setDestinationAmount(0.0);
-        response.setTaxConvertion(model.getTaxConvertion());
-        response.setDateRate(model.getDateRate());
-        response.setCreatedAt(model.getDateModel().getCreatedAt());
-        response.setUpdatedAt(model.getDateModel().getUpdatedAt());
+        response.setEndToEnd(dto.getEndToEnd());
+        response.setUserId(dto.getCurrencyTransaction().getId());
+        response.setOriginCurrency(dto.getCurrencyTransaction().getOriginCurrency());
+        response.setDestinationCurrency(dto.getCurrencyTransaction().getDestinationCurrency());
+        response.setOriginAmount(dto.getCurrencyTransaction().getOriginAmount());
+        response.setDestinationAmount(dto.getDestinationAmount());
+        response.setTaxConvertion(dto.getCurrencyTransaction().getTaxConvertion());
+        response.setDateRate(dto.getCurrencyTransaction().getDateRate());
+        response.setCreatedAt(dto.getCurrencyTransaction().getDateModel().getCreatedAt());
+        response.setUpdatedAt(dto.getCurrencyTransaction().getDateModel().getUpdatedAt());
         
         return response;
     }
 
-    public List<CurrencyResponse> response(List<CurrencyTransaction> model){
-        return model.stream().map(this::response).collect(Collectors.toList());
+    public List<CurrencyResponse> response(List<CurrencyResponseDTO> dto){
+        return dto.stream().map(this::response).collect(Collectors.toList());
     }
 
     private LocalDateTime toDateRate(CurrencyTransactionDTO dto) {
