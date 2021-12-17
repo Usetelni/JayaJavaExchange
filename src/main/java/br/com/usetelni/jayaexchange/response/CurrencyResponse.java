@@ -12,10 +12,10 @@ import br.com.usetelni.jayaexchange.model.enums.CurrencyType;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class CurrencyResponse {
     
-    @JsonProperty("endToEnd")
-    private String endToEnd;
     @JsonProperty("id")
     private Long userId;
+    @JsonProperty("endToEnd")
+    private String endToEnd;
     @JsonProperty("originCurrency")
     @NotNull
     private CurrencyType originCurrency;
@@ -39,20 +39,21 @@ public class CurrencyResponse {
     private LocalDateTime updatedAt;
 
 
+    
+    public Long getUserId() {
+        return userId;
+    }
+    
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+    
     public String getEndToEnd() {
         return endToEnd;
     }
 
     public void setEndToEnd(String endToEnd) {
         this.endToEnd = endToEnd;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
     }
 
     public CurrencyType getOriginCurrency() {

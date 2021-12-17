@@ -2,13 +2,14 @@ package br.com.usetelni.jayaexchange.service.impl.currency;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import br.com.usetelni.jayaexchange.api.ExchangeApi;
+import br.com.usetelni.jayaexchange.exceptions.BaseException;
 import br.com.usetelni.jayaexchange.mapper.currency.CurrencyTransactionMapper;
 import br.com.usetelni.jayaexchange.mapper.dto.CurrencyResponseDTO;
 import br.com.usetelni.jayaexchange.mapper.dto.CurrencyTransactionDTO;
@@ -48,8 +49,7 @@ public class CurrencyTransactionServiceImpl implements CurrencyTransactionServic
         CurrencyTransactionDTO dto = new CurrencyTransactionDTO(responseExchange, request);
         CurrencyTransaction model = mapper.create(dto);
         model = repository.save(model);
-        CurrencyResponseDTO CurrencyResponseDTO = new CurrencyResponseDTO(model, convertToDestinationAmount(responseExchange, model), request.getEndToEnd()); 
-        CurrencyResponse response = mapper.response(CurrencyResponseDTO);
+        CurrencyResponse response = mapper.response(model);
        
         return new BaseReturn<>(response);
     }
@@ -64,19 +64,10 @@ public class CurrencyTransactionServiceImpl implements CurrencyTransactionServic
     @Override
     public BaseReturn<List<CurrencyResponse>> list() {
         List<CurrencyTransaction> currencies = this.repository.findAll();
-        List<CurrencyResponseDTO> dtos = new ArrayList<>();
         if(currencies.isEmpty()){
-            throw new RuntimeException();
+            throw new BaseException(HttpStatus.NOT_FOUND, "There is no currency transaction resgistered.");
         }
-
-        currencies.stream().forEach(c -> {
-            Double destinationAmount = c.getOriginAmount() * c.getTaxConvertion();
-             CurrencyResponseDTO dto = new CurrencyResponseDTO(c,destinationAmount,"");
-             dtos.add(dto); 
-        });
-
-        List<CurrencyResponse> currencyResponses = this.mapper.response(dtos);
-        
+        List<CurrencyResponse> currencyResponses = this.mapper.response(currencies);
         return new BaseReturn<>(currencyResponses);
         
     }
@@ -90,24 +81,13 @@ public class CurrencyTransactionServiceImpl implements CurrencyTransactionServic
     @Override
     public BaseReturn<CurrencyResponse> getById(String id) {
         CurrencyTransaction model  =  this.repository.findById(Long.parseLong(id)).orElseThrow();
-        Double destinationAmount = model.getOriginAmount() * model.getTaxConvertion(); 
-        CurrencyResponseDTO dto = new CurrencyResponseDTO(model, destinationAmount, "");
-        CurrencyResponse response = this.mapper.response(dto);
+        CurrencyResponse response = this.mapper.response(model);
         return new BaseReturn<>(response);
     }
     
     @Override
     public void delete(String id) {
         // TODO Auto-generated method stub
-        
-    }
-
-    private Double convertToDestinationAmount(ExchageConvertResponse responseExchange, CurrencyTransaction model) {
-        if(Objects.isNull(responseExchange) || responseExchange.getRates().isEmpty()){
-            throw new RuntimeException();
-        }
-    
-        return model.getOriginAmount() * (Double.parseDouble(responseExchange.getRates().get(model.getDestinationCurrency().name())));
         
     }
     

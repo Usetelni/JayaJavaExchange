@@ -7,49 +7,48 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import br.com.usetelni.jayaexchange.mapper.dto.CurrencyResponseDTO;
 import br.com.usetelni.jayaexchange.mapper.dto.CurrencyTransactionDTO;
 import br.com.usetelni.jayaexchange.model.currency.CurrencyTransaction;
 import br.com.usetelni.jayaexchange.response.CurrencyResponse;
 import br.com.usetelni.jayaexchange.util.TimeZones;
 
-//TODO create DTO to receive data
 @Service
 public class CurrencyTransactionMapper {
     
 
     public CurrencyTransaction create(CurrencyTransactionDTO dto){
         CurrencyTransaction model = new CurrencyTransaction();
-
+        model.setEndToEnd(dto.getCurrencyRequest().getEndToEnd());
         model.setOriginCurrency(dto.getCurrencyRequest().getOriginCurrency());
         model.setDestinationCurrency(dto.getCurrencyRequest().getDestinationCurrency());
         model.setOriginAmount(dto.getCurrencyRequest().getOriginAmount());
+        model.setDestinationAmount(toTaxCurrnecyConvertion(dto));
         model.setTaxConvertion(toTaxCurrnecyConvertion(dto));
         model.setDateRate(toDateRate(dto));
         return model;
     }
 
-    public CurrencyResponse response(CurrencyResponseDTO dto){
+    public CurrencyResponse response(CurrencyTransaction model){
         CurrencyResponse response = new CurrencyResponse();
         
-        response.setEndToEnd(dto.getEndToEnd());
-        response.setUserId(dto.getCurrencyTransaction().getId());
-        response.setOriginCurrency(dto.getCurrencyTransaction().getOriginCurrency());
-        response.setDestinationCurrency(dto.getCurrencyTransaction().getDestinationCurrency());
-        response.setOriginAmount(dto.getCurrencyTransaction().getOriginAmount());
-        response.setDestinationAmount(dto.getDestinationAmount());
-        response.setTaxConvertion(dto.getCurrencyTransaction().getTaxConvertion());
-        response.setDateRate(dto.getCurrencyTransaction().getDateRate());
-        response.setCreatedAt(dto.getCurrencyTransaction().getDateModel().getCreatedAt());
-        response.setUpdatedAt(dto.getCurrencyTransaction().getDateModel().getUpdatedAt());
+        response.setEndToEnd(model.getEndToEnd());
+        response.setUserId(model.getId());
+        response.setOriginCurrency(model.getOriginCurrency());
+        response.setDestinationCurrency(model.getDestinationCurrency());
+        response.setOriginAmount(model.getOriginAmount());
+        response.setDestinationAmount(model.getDestinationAmount());
+        response.setTaxConvertion(model.getTaxConvertion());
+        response.setDateRate(model.getDateRate());
+        response.setCreatedAt(model.getDateModel().getCreatedAt());
+        response.setUpdatedAt(model.getDateModel().getUpdatedAt());
         
         return response;
     }
 
-    public List<CurrencyResponse> response(List<CurrencyResponseDTO> dto){
+    public List<CurrencyResponse> response(List<CurrencyTransaction> dto){
         return dto.stream().map(this::response).collect(Collectors.toList());
     }
-
+    
     private LocalDateTime toDateRate(CurrencyTransactionDTO dto) {
         if(Objects.nonNull(dto.getExchageConvertResponse()) && Objects.nonNull(dto.getExchageConvertResponse().getTimestamp())){
             Long timeStamp = dto.getExchageConvertResponse().getTimestamp() != null ? dto.getExchageConvertResponse().getTimestamp() : 0L;

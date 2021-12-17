@@ -20,6 +20,8 @@ import br.com.usetelni.jayaexchange.model.enums.CurrencyType;
 @Where(clause = "deleted_at is null")
 public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     
+    @Column(name = "end_to_end")
+    private String endToEnd;
     @Column(name = "origin_currency", nullable = false)
     @Enumerated(EnumType.STRING)
     private CurrencyType originCurrency;
@@ -28,10 +30,19 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     private CurrencyType destinationCurrency;
     @Column(name = "origin_amount", nullable = false ) 
     private Double originAmount;
+    @Column(name = "destination_amount")
+    private Double destinationAmount;
     @Column(name = "conversion_tax" )
     private Double taxConvertion;
     @Column(name = "date_rate")
     private LocalDateTime dateRate;
+    
+    public String getEndToEnd() {
+        return endToEnd;
+    }
+    public void setEndToEnd(String endToEnd) {
+        this.endToEnd = endToEnd;
+    }
     public CurrencyType getOriginCurrency() {
         return originCurrency;
     }
@@ -50,6 +61,12 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     public void setOriginAmount(Double originAmount) {
         this.originAmount = originAmount;
     }
+    public Double getDestinationAmount() {
+        return destinationAmount;
+    }
+    public void setDestinationAmount(Double destinationAmount) {
+        this.destinationAmount = destinationAmount;
+    }
     public Double getTaxConvertion() {
         return taxConvertion;
     }
@@ -62,12 +79,15 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
     public void setDateRate(LocalDateTime dateRate) {
         this.dateRate = dateRate;
     }
+    
     @Override
     public int hashCode() {
         final int prime = 31;
         int result = 1;
         result = prime * result + ((dateRate == null) ? 0 : dateRate.hashCode());
+        result = prime * result + ((destinationAmount == null) ? 0 : destinationAmount.hashCode());
         result = prime * result + ((destinationCurrency == null) ? 0 : destinationCurrency.hashCode());
+        result = prime * result + ((endToEnd == null) ? 0 : endToEnd.hashCode());
         result = prime * result + ((originAmount == null) ? 0 : originAmount.hashCode());
         result = prime * result + ((originCurrency == null) ? 0 : originCurrency.hashCode());
         result = prime * result + ((taxConvertion == null) ? 0 : taxConvertion.hashCode());
@@ -87,7 +107,17 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
                 return false;
         } else if (!dateRate.equals(other.dateRate))
             return false;
+        if (destinationAmount == null) {
+            if (other.destinationAmount != null)
+                return false;
+        } else if (!destinationAmount.equals(other.destinationAmount))
+            return false;
         if (destinationCurrency != other.destinationCurrency)
+            return false;
+        if (endToEnd == null) {
+            if (other.endToEnd != null)
+                return false;
+        } else if (!endToEnd.equals(other.endToEnd))
             return false;
         if (originAmount == null) {
             if (other.originAmount != null)
@@ -103,12 +133,16 @@ public class CurrencyTransaction extends BaseModel<CurrencyTransaction>{
             return false;
         return true;
     }
+    
     @Override
     public String toString() {
-        return "CurrencyTransaction [dateRate=" + dateRate + ", destinationCurrency=" + destinationCurrency
-                + ", originAmount=" + originAmount + ", originCurrency=" + originCurrency + ", taxConvertion="
-                + taxConvertion + "]";
+        return "CurrencyTransaction [dateRate=" + dateRate + ", destinationAmount=" + destinationAmount
+                + ", destinationCurrency=" + destinationCurrency + ", endToEnd=" + endToEnd + ", originAmount="
+                + originAmount + ", originCurrency=" + originCurrency + ", taxConvertion=" + taxConvertion + "]";
     }
+
+    
+    
     
        
     
